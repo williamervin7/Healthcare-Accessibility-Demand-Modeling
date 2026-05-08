@@ -17,3 +17,5 @@ geopandas
 
 # Development Tools
 jupyterlab
+
+pytest
