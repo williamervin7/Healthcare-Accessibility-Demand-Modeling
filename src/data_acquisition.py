@@ -2,7 +2,6 @@ import argparse
 import logging
 import os
 import time
-from typing import Optional
 
 import pandas as pd
 import requests
@@ -13,9 +12,6 @@ import os
 load_dotenv()
 
 api_key = os.getenv("CENSUSKEY")
-
-print(api_key)
-print("API key loaded successfully.")
 
 CENSUS_BASE_URL = "https://api.census.gov/data/2022/acs/acs5"
 
@@ -100,20 +96,13 @@ def fetch_census_data() -> pd.DataFrame:
     logger.info("Census fetch complete — %d ZIP codes retrieved.", len(df))
     return df
 
-def acquire_all_data() -> pd.DataFrame:
-    
-    census_df = fetch_census_data()
-    zip_codes = census_df["zip_code"].dropna().unique().tolist()
-
-    return census_df
-
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Acquire US Census data for healthcare accessibility demand modeling.")
     args = parser.parse_args()
 
     start_time = time.time()
     # Call the data acquisition function and save the results
-    df = acquire_all_data()
+    df = fetch_census_data()
     elapsed_time = time.time() - start_time
     logger.info("Data acquisition completed in %.2f seconds.", elapsed_time)
 
