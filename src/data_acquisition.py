@@ -19,6 +19,24 @@ ACS_VARIABLES: dict[str, str] = {
     "B01002_001E": "median_age",
     "B01001_001E": "total_population",
     "B19013_001E": "median_household_income",
+     # Education
+    "B15003_022E": "bachelors_degree",
+    "B15003_023E": "masters_degree",
+
+    # Poverty
+    "B17001_002E": "below_poverty",
+
+    # Employment
+    "B23025_005E": "unemployed",
+
+    # Insurance
+    "B27010_017E": "uninsured_adults",
+
+    # Disability
+    "C18108_001E": "with_disability",
+
+    # Transportation
+    "B08201_002E": "no_vehicle_households",
 }
 
 logging.basicConfig(
@@ -34,26 +52,34 @@ def fetch_census_data() -> pd.DataFrame:
     """
     Fetch ACS 5-Year Estimates for all U.S. ZCTAs and filter for Texas.
 
-    The Census API does not allow state-level filtering for ZCTAs (ZIP Code Tabulation Areas).
-    This function retrieves national data for key demographic indicators and filters 
-    locally for Texas prefixes (75-79).
+    Retrieves national data for a comprehensive set of demographic and socio-economic
+    indicators (Age, Income, Education, Poverty, Employment, Insurance, Disability,
+    and Transportation) and filters locally for Texas prefixes (75-79).
 
     Returns
     -------
     pd.DataFrame
-        A DataFrame indexed by ZIP code containing:
-        - zip_code : str
-        - median_age : float
-        - total_population : int
+        A DataFrame containing the following features per ZIP code:
+        - zip_code                : str
+        - median_age              : float
+        - total_population        : int
         - median_household_income : float
-        
+        - bachelors_degree        : int
+        - masters_degree          : int
+        - below_poverty           : int
+        - unemployed              : int
+        - uninsured_adults        : int
+        - with_disability         : int
+        - no_vehicle_households   : int
+
     Notes
     -----
-    - Sentinel values (e.g., -666666666) are converted to NaN.
-    - Household income and age are coerced to numeric types.
-    - Data is sourced from the 2022 ACS 5-Year Estimates.
+    - API constraint: ZCTA-level queries do not support state-level filtering.
+    - Data quality: Sentinel values (e.g., -666666666) are coerced to NaN.
+    - Year: Utilizing 2022 ACS 5-Year Estimates.
     """
     variable_str = ",".join(ACS_VARIABLES.keys())
+ 
     params = {
         "get": variable_str,
         "for": "zip code tabulation area:*",
@@ -76,6 +102,7 @@ def fetch_census_data() -> pd.DataFrame:
     headers, rows    = raw_json[0], raw_json[1:]
     df               = pd.DataFrame(rows, columns=headers)
 
+    # Map Census codes to readable names defined in ACS_VARIABLES
     rename_map: dict[str, str] = {
         **ACS_VARIABLES,
         "zip code tabulation area": "zip_code",
@@ -86,14 +113,17 @@ def fetch_census_data() -> pd.DataFrame:
 
     df.drop(columns=["state"], errors="ignore", inplace=True)
 
-    numeric_cols = ["median_age", "total_population", "median_household_income"]
+    # Automatically identify all value columns to convert to numeric
+    numeric_cols = list(ACS_VARIABLES.values())
+ 
     for col in numeric_cols:
         df[col] = pd.to_numeric(df[col], errors="coerce")
         # Replace Census sentinel values with NaN
         df[col] = df[col].where(df[col] > 0, other=pd.NA)
 
     df = df[["zip_code"] + numeric_cols].copy()
-    logger.info("Census fetch complete — %d ZIP codes retrieved.", len(df))
+    logger.info("Census fetch complete — %d ZIP codes retained with %d features.", 
+                len(df), len(numeric_cols))
     return df
 
 if __name__ == "__main__":
