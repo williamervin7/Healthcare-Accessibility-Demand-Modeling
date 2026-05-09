@@ -108,11 +108,11 @@ def acquire_all_data() -> pd.DataFrame:
     return census_df
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description="Acquire data for healthcare accessibility demand modeling.")
-    parser.add_argument("--state_fips", type=str, default="48", help="Two-digit FIPS code for the state (default: 48 for Texas).")
+    parser = argparse.ArgumentParser(description="Acquire US Census data for healthcare accessibility demand modeling.")
     args = parser.parse_args()
 
     start_time = time.time()
+    # Call the data acquisition function and save the results
     df = acquire_all_data()
     elapsed_time = time.time() - start_time
     logger.info("Data acquisition completed in %.2f seconds.", elapsed_time)
