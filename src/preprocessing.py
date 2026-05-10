@@ -1,5 +1,9 @@
 import os
 import pandas as pd
+import sys
+import os
+
+sys.path.append(os.path.abspath("."))
 
 def get_data() -> tuple[pd.DataFrame, pd.DataFrame]:
     """

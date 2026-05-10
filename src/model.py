@@ -1,3 +1,8 @@
+import sys
+import os
+
+
+sys.path.append(os.path.abspath("."))
 from src.preprocessing import filter_by_city
 from sklearn.model_selection import train_test_split
 import numpy as np
@@ -5,7 +10,6 @@ import pandas as pd
 from sklearn.linear_model import LogisticRegression
 from sklearn.metrics import classification_report, confusion_matrix
 from sklearn.preprocessing import StandardScaler
-
 
 def sigmoid(x):
     """
@@ -150,6 +154,7 @@ def run_model(df: pd.DataFrame, target_col: str):
     
     print("Confusion Matrix:")
     print(confusion_matrix(y_test, y_pred))
+    return weights, cost_history, y_test, y_pred
 
 def run_sklearn_model(df: pd.DataFrame, target_col: str):
     """
@@ -169,6 +174,7 @@ def run_sklearn_model(df: pd.DataFrame, target_col: str):
     
     print("Confusion Matrix:")
     print(confusion_matrix(y_test, y_pred))
+    return y_test, y_pred
 
 
 if __name__ == "__main__":
