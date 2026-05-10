@@ -1,3 +1,4 @@
+![Build Status](https://github.com/williamervin7/Healthcare-Accessibility-Demand-Modeling/actions/workflows/python-app.yml/badge.svg)
 # Healthcare Accessibility & Demand Modeling: Identifying "Healthcare Deserts"
 
 ## 1. Project Overview
