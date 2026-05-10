@@ -47,6 +47,8 @@ def merge_data(census_df: pd.DataFrame, healthcare_df: pd.DataFrame) -> pd.DataF
     # Left merge to keep all Census ZIPs; fill missing facility counts with 0
     merged_df = pd.merge(census_df, healthcare_counts, left_on='zip_code', right_on='zip_cd', how='left')
     merged_df['facility_count'] = merged_df['facility_count'].fillna(0)
+
+    merged_df.drop(columns=['zip_cd'], inplace=True)  # Remove redundant ZIP column after merge
     
     return merged_df
 
