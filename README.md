@@ -1,3 +1,5 @@
+![Python application](https://github.com/williamervin7/Healthcare-Accessibility-Demand-Modeling/actions/workflows/python-app.yml/badge.svg)
+
 # Healthcare Accessibility Classification: Identifying "Healthcare Deserts" in Houston
 
 ## 📌 Project Overview

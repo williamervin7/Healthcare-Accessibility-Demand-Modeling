@@ -8,11 +8,15 @@ import numpy as np
 import os
 
 # change names later
-def first_test():
-    pass
+def test_sigmoid():
+    """Basic test to ensure CI pipeline works."""
+    assert 1 == 1
 
-def second_test():
-    pass
+def test_shape():
+    """Dummy test for future data validation."""
+    sample_list = [1, 2, 3]
+    assert len(sample_list) == 3
 
-def third_test():
-    pass
+def test_input():
+    """Placeholder for custom Logistic Regression math."""
+    assert 10 / 2 == 5
