@@ -31,6 +31,7 @@ The analysis joins two primary datasets at the ZIP code (ZCTA) level:
 2.  **Demand Data:** U.S. Census Bureau ACS 5-Year Estimates — Median Age, Total Population, Household Income, and secondary factors (Uninsured/Vehicle Access).
 
 ## 🏗️ Project Structure
+```text
 ├── data/                  
 ├── notebooks/   
 |   ├── eda.ipynb         # Started_eda.ipynb (Data Cleaning & Hypo Testing)
@@ -43,6 +44,7 @@ The analysis joins two primary datasets at the ZIP code (ZCTA) level:
 |   ├── test_model.py/
 ├── README.md
 └── requirements.txt
+```
 
 ## 🚀 Future Results & Visualizations
 * **Classification Metrics:** Precision-Recall curves and F1-Score comparisons between the custom model and `scikit-learn`.
