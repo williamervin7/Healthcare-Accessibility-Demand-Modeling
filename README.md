@@ -1,40 +1,151 @@
 ![Build Status](https://github.com/williamervin7/Healthcare-Accessibility-Demand-Modeling/actions/workflows/python-app.yml/badge.svg)
-# Healthcare Accessibility & Demand Modeling: Identifying "Healthcare Deserts"
+# Healthcare Accessibility & Demand Modeling
 
-## 1. Project Overview
-This project identifies underserved geographic areas ("healthcare deserts") by modeling the relationship between healthcare facility density and demographic demand indicators. This analysis simulates a real-world use case for a **Healthcare Real Estate Investment Trust (REIT)** seeking to optimize facility placement in high-demand areas.
+Identifying Healthcare Deserts in Houston, TX
 
-### 1.1 Research Question
-How does the density of healthcare facilities correlate with demographic demand indicators (median age, population, and income) across ZIP codes, and which areas can be identified as "healthcare deserts" based on this relationship?
+## Overview
 
-## 2. Technical Rigor: Logistic Regression from Scratch
-A primary objective of this project was to demonstrate mathematical and engineering rigor by implementing a Logistic Regression model using only **NumPy** for matrix operations, rather than relying on "black-box" libraries.
+This project analyzes healthcare accessibility across Houston-area ZIP codes by identifying regions where demographic demand is high but healthcare facility availability is low.
 
-### 2.1 Core Mathematical Functions
-* **Sigmoid Function:** Maps real-valued linear outputs into a probability value between 0 and 1.
-* **Binary Cross-Entropy (Log Loss):** Used as the cost function to penalize incorrect classifications.
-* **Gradient Descent:** An optimization algorithm that iteratively calculates partial derivatives to update weights and minimize error.
+The project simulates a real-world use case for a Healthcare Real Estate Investment Trust (REIT) evaluating where to expand healthcare infrastructure.
 
-## 3. Project Structure
-The project is organized as a modular Python pipeline following PEP 8 standards:
+Using demographic data from the Census API and healthcare facility density metrics, I built a custom Logistic Regression model from scratch using NumPy to classify underserved areas ("healthcare deserts").
 
-* `src/data_acquisition.py`: Handles Census API calls with error handling.
-* `src/preprocessing.py`: Manages data cleaning, merging.
-* `src/model.py`: Contains the custom NumPy Logistic Regression implementation, Sklearn comparison and feature engineering (scaling and bias integration).
-* `src/analysis.py`: Evaluates model performance via confusion matrices and cost history visualization.
-* `results.ipynb`: The end-to-end notebook for presentation and stakeholder visualization.
+## Key Features
 
-## 4. Key Findings & Strategic Results
-The model successfully identified high-priority investment areas based on the intersection of aging populations and low healthcare supply.
+* Custom Logistic Regression implementation using NumPy
+* Gradient Descent optimization from scratch
+* Census API data acquisition pipeline
+* Feature engineering and preprocessing workflow
+* Benchmark comparison against Scikit-learn
+* Geospatial visualization of underserved ZIP codes using Folium
 
-### 4.1 Identified "Healthcare Deserts"
-Based on the final model output, the following ZIP codes in the Houston and surrounding area are identified as high-priority for new facility investment:
+## Tech Stack
 
-| ZIP Code | Median Age | Median Household Income | Priority Rank |
-| :--- | :--- | :--- | :--- |
-| **77431** | 88.2 | $16,513 | 1 (Critical) |
-| **77359** | 72.2 | $55,331 | 2 (High) |
-| **77475** | 70.1 | $58,255 | 3 (High) |
+* Python
+* NumPy
+* Pandas
+* Scikit-learn
+* Matplotlib
+* GeoPandas
+* Folium
+* Census API
 
-### 4.2 Conclusion
-By quantifying the demand-supply gap, this project provides a data-driven roadmap for the REIT to expand its infrastructure where it will have the highest community impact and demand fulfillment.
+## Business Problem
+
+Healthcare providers and healthcare-focused REITs need a way to identify areas where demand for healthcare services exceeds current infrastructure capacity.
+
+This project models the relationship between:
+
+* population demographics
+* median age
+* income
+* healthcare facility density
+
+to identify ZIP codes with high potential unmet healthcare demand.
+
+## Methodology
+
+### Data Pipeline
+
+* Pulled demographic data from the Census API
+* Aggregated healthcare facility counts by ZIP code
+* Engineered healthcare density metrics
+* Filtered and standardized Houston-area ZIP code data
+
+### Custom Logistic Regression
+
+To demonstrate understanding beyond library usage, Logistic Regression was implemented manually using NumPy.
+
+Core components include:
+
+* Sigmoid function
+* Binary Cross-Entropy loss
+* Gradient Descent optimization
+* Feature scaling
+* Bias term integration
+
+### Model Benchmarking
+
+The custom model was compared directly against Scikit-learn's LogisticRegression implementation using the same dataset and train/test split.
+
+| Model              | Accuracy | F1 Score | Recall |
+| ------------------ | -------- | -------- | ------ |
+| Custom NumPy Model | 0.8636   | 0.25     | 0.1429 |
+| Scikit-learn       | 0.8636   | 0.40     | 0.2857 |
+
+## Key Findings
+
+### Top Priority ZIP Codes
+
+| ZIP Code | Median Age | Median Household Income |
+| -------- | ---------- | ----------------------- |
+| 77331    | 51.2       | $50,123                 |
+| 77565    | 48.4       | $81,921                 |
+| 77422    | 44.7       | $68,937                 |
+| 77059    | 44.5       | $158,958                |
+| 77358    | 44.2       | $71,966                 |
+
+These areas were identified as high-priority investment targets due to relatively high demographic demand and lower healthcare facility density.
+
+## Geospatial Analysis
+
+The final model output was visualized using Folium and GeoPandas to create an interactive healthcare desert map for Houston-area ZIP codes.
+
+### Healthcare Desert Map
+
+![Healthcare Desert Map](images/Geo_image.png)
+
+## Project Structure
+
+```text
+Healthcare-Accessibility-Demand-Modeling/
+│
+├── data/
+│   ├── processed_data.csv
+│   └── zipcode.zip
+│
+├── images/
+│   └── geo_image.png
+│
+├── notebooks/
+│   ├── eda.ipynb
+│   └── results.ipynb
+│
+├── src/
+│   ├── analysis.py
+│   ├── data_acquisition.py
+│   ├── model.py
+│   └── preprocessing.py
+│
+├── test/
+│   └── test_model.py
+│
+├── requirements.txt
+└── README.md
+```
+
+## Future Improvements
+
+* Address class imbalance using SMOTE or class weighting
+* Experiment with ensemble models
+* Add additional healthcare access indicators
+* Expand analysis beyond Houston
+* Deploy interactive dashboard version
+
+## Running the Project
+
+```bash
+git clone <repo-url>
+cd Healthcare-Accessibility-Demand-Modeling
+
+pip install -r requirements.txt
+```
+
+Run:
+
+```bash
+jupyter notebook results.ipynb
+```
+
+---
