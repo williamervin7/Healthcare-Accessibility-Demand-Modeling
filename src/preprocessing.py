@@ -83,6 +83,9 @@ def calculate_metrics(merged_df: pd.DataFrame) -> pd.DataFrame:
     for col in impute_cols:
         if col in df_clean.columns:
             df_clean[col] = df_clean[col].fillna(df_clean[col].median())
+
+    MIN_POPULATION = 2500  # Threshold to exclude ZIP codes with very low population
+    df_clean = df_clean[df_clean['total_population'] > MIN_POPULATION].copy()  
     
     # Calculate Facility Density per 1,000 residents and cap at 99th percentile
     df_clean['facility_density'] = (df_clean['facility_count'] / df_clean['total_population']) * 1000
